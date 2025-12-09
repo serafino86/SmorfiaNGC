@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGC - Smorfia Napoletana Neon</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Anton&display=swap');
+
+```
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        font-family: 'Anton', sans-serif;
+        overflow-x: hidden;
+        min-height: 100vh;
+        position: relative;
+    }
+
+    /* 90s pattern background */
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+            repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.05) 35px, rgba(255,255,255,.05) 70px);
+        z-index: 0;
+    }
+
+    .container {
+        position: relative;
+        z-index: 1;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    header {
+        text-align: center;
+        margin-bottom: 30px;
+        background: linear-gradient(90deg, #e94560, #f39c12, #e94560);
+        padding: 20px;
+        border: 5px solid #f39c12;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    h1 {
+        font-size: clamp(32px, 6vw, 72px);
+        color: #fff;
+        text-shadow: 
+            4px 4px 0px #000,
+            6px 6px 0px rgba(233, 69, 96, 0.8);
+        margin-bottom: 10px;
+        letter-spacing: 5px;
+        font-family: 'Anton', sans-serif;
+        transform: skew(-5deg);
+    }
+
+    .subtitle {
+        font-size: clamp(14px, 2.5vw, 24px);
+        color: #f39c12;
+        text-shadow: 2px 2px 0px #000;
+        font-family: 'Bebas Neue', sans-serif;
+        letter-spacing: 3px;
+    }
+
+    .signature {
+        font-size: clamp(10px, 1.5vw, 14px);
+        color: #e94560;
+        text-shadow: 1px 1px 0px #000;
+        margin-top: 10px;
+        font-family: 'Bebas Neue', sans-serif;
+        font-style: italic;
+    }
+
+    .selected-numbers {
+        background: linear-gradient(135deg, #0f3460, #16213e);
+        border: 5px solid #e94560;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        text-align: center;
+    }
+
+    .selected-title {
+        color: #f39c12;
+        font-size: clamp(16px, 3vw, 28px);
+        margin-bottom: 15px;
+        text-shadow: 3px 3px 0px #000;
+        font-family: 'Anton', sans-serif;
+        letter-spacing: 3px;
+    }
+
+    .numbers-display {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+    }
+
+    .selected-num {
+        background: linear-gradient(135deg, #e94560, #f39c12);
+        color: #fff;
+        font-size: clamp(24px, 5vw, 40px);
+        font-weight: bold;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 
+            0 5px 0px #000,
+            0 10px 20px rgba(0,0,0,0.5);
+        font-family: 'Anton', sans-serif;
+        border: 4px solid #fff;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        background: linear-gradient(135deg, #e94560, #f39c12);
+        border: 3px solid #fff;
+        padding: 15px 30px;
+        font-family: 'Anton', sans-serif;
+        font-size: clamp(12px, 2vw, 18px);
+        color: #fff;
+        cursor: pointer;
+        border-radius: 5px;
+        box-shadow: 0 5px 0px #000, 0 8px 20px rgba(0,0,0,0.4);
+        transition: all 0.2s;
+        text-shadow: 2px 2px 0px #000;
+        letter-spacing: 2px;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 7px 0px #000, 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    .btn:active {
+        transform: translateY(3px);
+        box-shadow: 0 2px 0px #000, 0 3px 10px rgba(0,0,0,0.4);
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .number-card {
+        background: linear-gradient(135deg, #e94560, #f39c12);
+        border: 4px solid #fff;
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        position: relative;
+        overflow: visible;
+        box-shadow: 0 5px 0px #000, 0 8px 20px rgba(0,0,0,0.4);
+        min-height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .number-card:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 10px 0px #000, 0 15px 30px rgba(0,0,0,0.6);
+    }
+
+    .number-card.selected {
+        background: linear-gradient(135deg, #16a085, #27ae60);
+        border-color: #f1c40f;
+        box-shadow: 0 8px 0px #000, 0 12px 30px rgba(241,196,15,0.8);
+        transform: scale(1.1);
+    }
+
+    .num {
+        font-size: clamp(32px, 5vw, 48px);
+        color: #fff;
+        text-shadow: 
+            3px 3px 0px #000,
+            5px 5px 0px rgba(0,0,0,0.5);
+        font-family: 'Anton', sans-serif;
+    }
+
+    .name {
+        display: none;
+    }
+
+    /* Modal */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.9);
+        animation: fadeIn 0.3s;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .modal-content {
+        background: linear-gradient(135deg, #16213e, #0f3460);
+        margin: 5% auto;
+        padding: 30px;
+        border: 5px solid #e94560;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 600px;
+        box-shadow: 0 10px 50px rgba(0,0,0,0.8);
+        animation: slideDown 0.5s;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    @keyframes slideDown {
+        from { transform: translateY(-100px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    .close {
+        color: #f39c12;
+        float: right;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+        text-shadow: 2px 2px 0px #000;
+    }
+
+    .close:hover {
+        color: #e94560;
+        transform: scale(1.2);
+    }
+
+    .modal-number {
+        font-size: 80px;
+        color: #f39c12;
+        text-align: center;
+        margin: 20px 0;
+        text-shadow: 4px 4px 0px #000;
+        animation: numberPop 0.5s;
+        font-family: 'Anton', sans-serif;
+    }
+
+    @keyframes numberPop {
+        0% { transform: scale(0) rotate(-180deg); }
+        50% { transform: scale(1.2) rotate(10deg); }
+        100% { transform: scale(1) rotate(0deg); }
+    }
+
+    .modal-name {
+        font-size: 28px;
+        color: #e94560;
+        text-align: center;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 0px #000;
+        font-family: 'Anton', sans-serif;
+    }
+
+    .translation-section {
+        background: rgba(233, 69, 96, 0.2);
+        border: 3px solid #f39c12;
+        border-radius: 10px;
+        padding: 15px;
+        margin: 10px 0;
+    }
+
+    .translation-title {
+        color: #f39c12;
+        font-size: 18px;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 0px #000;
+        font-family: 'Anton', sans-serif;
+        letter-spacing: 2px;
+    }
+
+    .translation-text {
+        color: #fff;
+        font-size: 16px;
+        line-height: 1.8;
+        text-shadow: 1px 1px 0px #000;
+        font-family: 'Bebas Neue', sans-serif;
+    }
+
+    /* Easter Egg Animation */
+    .easter-egg {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2000;
+        text-align: center;
+        animation: easterEggAppear 0.5s;
+    }
+
+    @keyframes easterEggAppear {
+        0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); }
+        50% { transform: translate(-50%, -50%) scale(1.2) rotate(180deg); }
+        100% { transform: translate(-50%, -50%) scale(1) rotate(360deg); }
+    }
+
+    .easter-egg-text {
+        font-size: 56px;
+        color: #e94560;
+        text-shadow: 
+            4px 4px 0px #000,
+            6px 6px 0px #f39c12;
+        margin-bottom: 20px;
+        animation: bounce 0.5s ease-in-out infinite alternate;
+        font-family: 'Anton', sans-serif;
+        letter-spacing: 5px;
+    }
+
+    @keyframes bounce {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(-20px); }
+    }
+
+    .easter-egg-hand {
+        font-size: 120px;
+        animation: handRotate 1s ease-in-out infinite;
+        filter: drop-shadow(5px 5px 0px #000);
+    }
+
+    @keyframes handRotate {
+        0%, 100% { transform: rotate(-20deg); }
+        50% { transform: rotate(20deg); }
+    }
+
+    .scaramantico {
+        position: fixed;
+        font-size: 24px;
+        pointer-events: none;
+        z-index: 999;
+        animation: scaramanticoFloat 2s ease-out forwards;
+    }
+
+    @keyframes scaramanticoFloat {
+        0% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        100% {
+            opacity: 0;
+            transform: translateY(-100px) scale(1.5);
+        }
+    }
+
+    /* Screenshot Overlay */
+    .screenshot-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        z-index: 3000;
+        animation: fadeIn 0.3s;
+    }
+
+    .screenshot-content {
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .close-screenshot {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: #e94560;
+        border: 3px solid #fff;
+        color: #fff;
+        font-size: 32px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-family: 'Anton', sans-serif;
+        box-shadow: 0 5px 0px #000;
+        z-index: 3001;
+    }
+
+    .close-screenshot:active {
+        transform: translateY(3px);
+        box-shadow: 0 2px 0px #000;
+    }
+
+    .screenshot-header {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .screenshot-title {
+        font-size: clamp(36px, 8vw, 80px);
+        color: #fff;
+        text-shadow: 
+            4px 4px 0px #000,
+            6px 6px 0px rgba(233, 69, 96, 0.8);
+        font-family: 'Anton', sans-serif;
+        letter-spacing: 5px;
+    }
+
+    .screenshot-subtitle {
+        font-size: clamp(16px, 3vw, 28px);
+        color: #f39c12;
+        text-shadow: 2px 2px 0px #000;
+        font-family: 'Bebas Neue', sans-serif;
+        letter-spacing: 3px;
+        margin-top: 10px;
+    }
+
+    .animated-emojis {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .floating-emoji {
+        position: absolute;
+        font-size: 40px;
+        animation: floatEmoji 3s ease-in-out infinite;
+        opacity: 0.8;
+    }
+
+    @keyframes floatEmoji {
+        0%, 100% {
+            transform: translateY(0) rotate(0deg);
+        }
+        50% {
+            transform: translateY(-30px) rotate(180deg);
+        }
+    }
+
+    .screenshot-numbers {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin: 30px 0;
+        z-index: 2;
+        position: relative;
+    }
+
+    .screenshot-num {
+        background: linear-gradient(135deg, #e94560, #f39c12);
+        color: #fff;
+        font-size: clamp(32px, 7vw, 64px);
+        font-weight: bold;
+        width: clamp(70px, 15vw, 100px);
+        height: clamp(70px, 15vw, 100px);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 
+            0 5px 0px #000,
+            0 10px 30px rgba(0,0,0,0.7);
+        font-family: 'Anton', sans-serif;
+        border: 5px solid #fff;
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+
+    .jolly-section {
+        background: linear-gradient(135deg, rgba(233, 69, 96, 0.3), rgba(243, 156, 18, 0.3));
+        border: 5px solid #e94560;
+        border-radius: 20px;
+        padding: 20px;
+        text-align: center;
+        margin: 20px 0;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        z-index: 2;
+        position: relative;
+    }
+
+    .jolly-label {
+        font-size: clamp(18px, 4vw, 32px);
+        color: #f39c12;
+        text-shadow: 3px 3px 0px #000;
+        font-family: 'Anton', sans-serif;
+        letter-spacing: 3px;
+        margin-bottom: 15px;
+    }
+
+    .jolly-number {
+        font-size: clamp(48px, 10vw, 96px);
+        color: #fff;
+        text-shadow: 
+            4px 4px 0px #000,
+            6px 6px 0px #e94560;
+        font-family: 'Anton', sans-serif;
+        margin: 15px 0;
+    }
+
+    .jolly-phrase-ita, .jolly-phrase-eng {
+        font-size: clamp(16px, 3vw, 28px);
+        color: #fff;
+        text-shadow: 2px 2px 0px #000;
+        font-family: 'Bebas Neue', sans-serif;
+        line-height: 1.5;
+        margin: 10px 0;
+    }
+
+    .jolly-phrase-ita {
+        color: #f39c12;
+    }
+
+    .jolly-phrase-eng {
+        color: #fff;
+        font-style: italic;
+    }
+
+    .screenshot-footer {
+        text-align: center;
+        z-index: 2;
+        position: relative;
+    }
+
+    .screenshot-signature {
+        font-size: clamp(10px, 2vw, 16px);
+        color: #e94560;
+        text-shadow: 1px 1px 0px #000;
+        font-family: 'Bebas Neue', sans-serif;
+        margin-bottom: 15px;
+    }
+
+    .screenshot-instruction {
+        font-size: clamp(20px, 4vw, 36px);
+        color: #f39c12;
+        text-shadow: 3px 3px 0px #000;
+        font-family: 'Anton', sans-serif;
+        letter-spacing: 3px;
+        animation: blink 1s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .grid {
+            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            gap: 10px;
+        }
+        
+        .selected-num {
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+        }
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚡ NGC SMORFIA ⚡</h1>
+            <div class="subtitle">NAPOLETANA EDITION '90</div>
+            <div class="signature">Created by Serafino for NGC Family | Inspired by Shank the FREGNA 🔥</div>
+        </header>
+
+```
+    <div class="selected-numbers">
+        <div class="selected-title">🍀 NUMERI FORTUNATI 🍀</div>
+        <div class="numbers-display" id="selectedDisplay">
+            <div class="selected-num">?</div>
+            <div class="selected-num">?</div>
+            <div class="selected-num">?</div>
+            <div class="selected-num">?</div>
+            <div class="selected-num">?</div>
+            <div class="selected-num">?</div>
+        </div>
+        <div class="action-buttons">
+            <button class="btn" onclick="resetSelection()">🔄 RESET</button>
+            <button class="btn" onclick="randomSelection()">🎲 RANDOM</button>
+            <button class="btn" onclick="shareNumbers()">📤 CONDIVIDI</button>
+        </div>
+    </div>
+
+    <div class="grid" id="numberGrid"></div>
+</div>
+
+<!-- Modal -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div id="modalContent"></div>
+    </div>
+</div>
+
+<!-- Easter Egg -->
+<div id="easterEgg" class="easter-egg">
+    <div class="easter-egg-text">TI PIACEREBBE?!</div>
+    <div class="easter-egg-hand">🖐️</div>
+</div>
+
+<!-- Screenshot Overlay -->
+<div id="screenshotOverlay" class="screenshot-overlay">
+    <div class="screenshot-content">
+        <button class="close-screenshot" onclick="closeScreenshot()">✕</button>
+        
+        <div class="screenshot-header">
+            <div class="screenshot-title">⚡ NGC SMORFIA ⚡</div>
+            <div class="screenshot-subtitle">NAPOLETANA EDITION '90</div>
+        </div>
+
+        <div class="animated-emojis" id="animatedEmojis"></div>
+
+        <div class="screenshot-numbers" id="screenshotNumbers"></div>
+
+        <div class="jolly-section">
+            <div class="jolly-label">🎯 NUMERO JOLLY 🎯</div>
+            <div class="jolly-number" id="jollyNumber"></div>
+            <div class="jolly-phrase-ita" id="jollyPhraseIta"></div>
+            <div class="jolly-phrase-eng" id="jollyPhraseEng"></div>
+        </div>
+
+        <div class="screenshot-footer">
+            <div class="screenshot-signature">Created by Serafino for NGC Family | Inspired by Shank the FREGNA 🔥</div>
+            <div class="screenshot-instruction">📸 FAI LO SCREENSHOT ORA! 📸</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const smorfia = {
+        1: { numero: 1, nomeNap: "L'Italia", italiano: "L'Italia", inglese: "Italy", francese: "L'Italie", tedesco: "Italien" },
+        2: { numero: 2, nomeNap: "'A piccerella", italiano: "La bambina", inglese: "The girl", francese: "La petite fille", tedesco: "Das Mädchen" },
+        3: { numero: 3, nomeNap: "'A gatta", italiano: "La gatta", inglese: "The cat", francese: "La chatte", tedesco: "Die Katze" },
+        4: { numero: 4, nomeNap: "'O puorco", italiano: "Il maiale", inglese: "The pig", francese: "Le cochon", tedesco: "Das Schwein" },
+        5: { numero: 5, nomeNap: "'A mano", italiano: "La mano", inglese: "The hand", francese: "La main", tedesco: "Die Hand" },
+        6: { numero: 6, nomeNap: "Chella ca guarda 'nterra", italiano: "L'organo femminile", inglese: "The woman's sex", francese: "Le sexe féminin", tedesco: "Das weibliche Geschlecht" },
+        7: { numero: 7, nomeNap: "'O vasetto", italiano: "Il vaso", inglese: "The pot", francese: "Le pot", tedesco: "Der Topf" },
+        8: { numero: 8, nomeNap: "'A Maronna", italiano: "La Madonna", inglese: "The Holy Virgin", francese: "La Vierge", tedesco: "Die Jungfrau Maria" },
+        9: { numero: 9, nomeNap: "'A figliata", italiano: "La figliolanza", inglese: "Childbirth", francese: "La progéniture", tedesco: "Die Nachkommenschaft" },
+        10: { numero: 10, nomeNap: "'E fasule", italiano: "I fagioli", inglese: "Beans", francese: "Les haricots", tedesco: "Die Bohnen" },
+        11: { numero: 11, nomeNap: "'E suricille", italiano: "I topolini", inglese: "Little mice", francese: "Les petites souris", tedesco: "Kleine Mäuse" },
+        12: { numero: 12, nomeNap: "'O surdato", italiano: "Il soldato", inglese: "The soldier", francese: "Le soldat", tedesco: "Der Soldat" },
+        13: { numero: 13, nomeNap: "Sant'Antuono", italiano: "Sant'Antonio", inglese: "Saint Anthony", francese: "Saint Antoine", tedesco: "Sankt Anton" },
+        14: { numero: 14, nomeNap: "'O mbriaco", italiano: "L'ubriaco", inglese: "The drunk man", francese: "L'ivrogne", tedesco: "Der Betrunkene" },
+        15: { numero: 15, nomeNap: "'O guaglione", italiano: "Il ragazzo", inglese: "The boy", francese: "Le garçon", tedesco: "Der Junge" },
+        16: { numero: 16, nomeNap: "'O culo", italiano: "Il sedere", inglese: "The butt", francese: "Les fesses", tedesco: "Der Hintern" },
+        17: { numero: 17, nomeNap: "'A disgrazia", italiano: "La disgrazia", inglese: "Misfortune", francese: "Le malheur", tedesco: "Das Unglück" },
+        18: { numero: 18, nomeNap: "'O sang", italiano: "Il sangue", inglese: "Blood", francese: "Le sang", tedesco: "Das Blut" },
+        19: { numero: 19, nomeNap: "'A resata", italiano: "La risata", inglese: "Laughter", francese: "Le rire", tedesco: "Das Lachen" },
+        20: { numero: 20, nomeNap: "'A festa", italiano: "La festa", inglese: "The party", francese: "La fête", tedesco: "Die Feier" },
+        21: { numero: 21, nomeNap: "'A femmena annura", italiano: "La donna nuda", inglese: "The naked woman", francese: "La femme nue", tedesco: "Die nackte Frau" },
+        22: { numero: 22, nomeNap: "'O pazzo", italiano: "Il pazzo", inglese: "The madman", francese: "Le fou", tedesco: "Der Verrückte" },
+        23: { numero: 23, nomeNap: "'O scemo", italiano: "Lo sciocco", inglese: "The fool", francese: "L'idiot", tedesco: "Der Narr" },
+        24: { numero: 24, nomeNap: "'E guardie", italiano: "Le guardie", inglese: "The guards", francese: "Les gardes", tedesco: "Die Wachen" },
+        25: { numero: 25, nomeNap: "Natale", italiano: "Natale", inglese: "Christmas", francese: "Noël", tedesco: "Weihnachten" },
+        26: { numero: 26, nomeNap: "Nanninella", italiano: "Nanninella", inglese: "Little Anna", francese: "Petite Anne", tedesco: "Kleine Anna" },
+        27: { numero: 27, nomeNap: "'O cantaro", italiano: "Il vaso da notte", inglese: "The chamber pot", francese: "Le pot de chambre", tedesco: "Das Nachttopf" },
+        28: { numero: 28, nomeNap: "'E zizze", italiano: "I seni", inglese: "The breasts", francese: "Les seins", tedesco: "Die Brüste" },
+        29: { numero: 29, nomeNap: "'O pate d' 'e criature", italiano: "Il padre dei bambini", inglese: "The children's father", francese: "Le père des enfants", tedesco: "Der Vater der Kinder" },
+        30: { numero: 30, nomeNap: "'E palle d' 'o tenente", italiano: "Le palle del tenente", inglese: "The lieutenant's balls", francese: "Les couilles du lieutenant", tedesco: "Die Eier des Leutnants" },
+        31: { numero: 31, nomeNap: "'O patrone 'e casa", italiano: "Il padrone di casa", inglese: "The landlord", francese: "Le propriétaire", tedesco: "Der Hausherr" },
+        32: { numero: 32, nomeNap: "'O capitone", italiano: "Il capitone", inglese: "The eel", francese: "L'anguille", tedesco: "Der Aal" },
+        33: { numero: 33, nomeNap: "'E ccancelle", italiano: "Le catene", inglese: "The chains", francese: "Les chaînes", tedesco: "Die Ketten" },
+        34: { numero: 34, nomeNap: "'A capera", italiano: "La parrucchiera", inglese: "The hairdresser", francese: "La coiffeuse", tedesco: "Die Friseurin" },
+        35: { numero: 35, nomeNap: "'U lupo", italiano: "Il lupo", inglese: "The wolf", francese: "Le loup", tedesco: "Der Wolf" },
+        36: { numero: 36, nomeNap: "'E castagnelle", italiano: "Le nacchere", inglese: "Castanets", francese: "Castagnettes", tedesco: "Kastagnetten" },
+        37: { numero: 37, nomeNap: "'O monaco", italiano: "Il monaco", inglese: "The monk", francese: "Le moine", tedesco: "Der Mönch" },
+        38: { numero: 38, nomeNap: "'A moneyca", italiano: "La monaca", inglese: "The nun", francese: "La nonne", tedesco: "Die Nonne" },
+        39: { numero: 39, nomeNap: "'A funesta", italiano: "La tragedia", inglese: "The tragedy", francese: "La tragédie", tedesco: "Die Tragödie" },
+        40: { numero: 40, nomeNap: "'A paposcia", italiano: "La ciabatta", inglese: "The slipper", francese: "La pantoufle", tedesco: "Der Hausschuh" },
+        41: { numero: 41, nomeNap: "'O curtiello", italiano: "Il coltello", inglese: "The knife", francese: "Le couteau", tedesco: "Das Messer" },
+        42: { numero: 42, nomeNap: "'O ccafè", italiano: "Il caffè", inglese: "Coffee", francese: "Le café", tedesco: "Der Kaffee" },
+        43: { numero: 43, nomeNap: "'A femmena arrevutata", italiano: "La donna ribelle", inglese: "The rebellious woman", francese: "La femme rebelle", tedesco: "Die rebellische Frau" },
+        44: { numero: 44, nomeNap: "'E cannarute", italiano: "I corni storti", inglese: "Twisted horns", francese: "Cornes tordues", tedesco: "Gedrehte Hörner" },
+        45: { numero: 45, nomeNap: "'O vino", italiano: "Il vino", inglese: "Wine", francese: "Le vin", tedesco: "Der Wein" },
+        46: { numero: 46, nomeNap: "'E denare", italiano: "I soldi", inglese: "Money", francese: "L'argent", tedesco: "Das Geld" },
+        47: { numero: 47, nomeNap: "'O muorto", italiano: "Il morto", inglese: "The dead man", francese: "Le mort", tedesco: "Der Tote" },
+        48: { numero: 48, nomeNap: "'O muorto che parla", italiano: "Il morto che parla", inglese: "The talking dead", francese: "Le mort qui parle", tedesco: "Der sprechende Tote" },
+        49: { numero: 49, nomeNap: "'O piezzo 'e carne", italiano: "Il pezzo di carne", inglese: "The piece of meat", francese: "Le morceau de viande", tedesco: "Das Stück Fleisch" },
+        50: { numero: 50, nomeNap: "'O ppane", italiano: "Il pane", inglese: "Bread", francese: "Le pain", tedesco: "Das Brot" },
+        51: { numero: 51, nomeNap: "'O ciardino", italiano: "Il giardino", inglese: "The garden", francese: "Le jardin", tedesco: "Der Garten" },
+        52: { numero: 52, nomeNap: "'A mamma", italiano: "La mamma", inglese: "The mother", francese: "La mère", tedesco: "Die Mutter" },
+        53: { numero: 53, nomeNap: "'O viecchio", italiano: "Il vecchio", inglese: "The old man", francese: "Le vieillard", tedesco: "Der alte Mann" },
+        54: { numero: 54, nomeNap: "'O cappiello", italiano: "Il cappello", inglese: "The hat", francese: "Le chapeau", tedesco: "Der Hut" },
+        55: { numero: 55, nomeNap: "'A museca", italiano: "La musica", inglese: "Music", francese: "La musique", tedesco: "Die Musik" },
+        56: { numero: 56, nomeNap: "'A caruta", italiano: "La caduta", inglese: "The fall", francese: "La chute", tedesco: "Der Sturz" },
+        57: { numero: 57, nomeNap: "'O scartellato", italiano: "Il gobbo", inglese: "The hunchback", francese: "Le bossu", tedesco: "Der Bucklige" },
+        58: { numero: 58, nomeNap: "'A puteolana", italiano: "La donna di Pozzuoli", inglese: "The woman from Pozzuoli", francese: "La femme de Pouzzoles", tedesco: "Die Frau aus Pozzuoli" },
+        59: { numero: 59, nomeNap: "'E pile", italiano: "I peli", inglese: "The hairs", francese: "Les poils", tedesco: "Die Haare" },
+        60: { numero: 60, nomeNap: "'O lamento", italiano: "Il lamento", inglese: "The lament", francese: "La lamentation", tedesco: "Die Klage" },
+        61: { numero: 61, nomeNap: "'O cacciatore", italiano: "Il cacciatore", inglese: "The hunter", francese: "Le chasseur", tedesco: "Der Jäger" },
+        62: { numero: 62, nomeNap: "'O muorto acciso", italiano: "Il morto ammazzato", inglese: "The murdered man", francese: "Le mort assassiné", tedesco: "Der Ermordete" },
+        63: { numero: 63, nomeNap: "'A sposa", italiano: "La sposa", inglese: "The bride", francese: "La mariée", tedesco: "Die Braut" },
+        64: { numero: 64, nomeNap: "'A sciammeria", italiano: "Il cappotto", inglese: "The coat", francese: "Le manteau", tedesco: "Der Mantel" },
+        65: { numero: 65, nomeNap: "'O chiavicone", italiano: "Il tombino", inglese: "The manhole", francese: "La bouche d'égout", tedesco: "Der Kanaldeckel" },
+        66: { numero: 66, nomeNap: "'E ddose", italiano: "Le due donne", inglese: "The two women", francese: "Les deux femmes", tedesco: "Die zwei Frauen" },
+        67: { numero: 67, nomeNap: "'O totaro", italiano: "Il totano", inglese: "The squid", francese: "Le calmar", tedesco: "Der Tintenfisch" },
+        68: { numero: 68, nomeNap: "'A zuppa cotta", italiano: "La zuppa cotta", inglese: "Cooked soup", francese: "La soupe cuite", tedesco: "Die gekochte Suppe" },
+        69: { numero: 69, nomeNap: "'A sott' 'e coppe", italiano: "Sottosopra", inglese: "The cup card", francese: "Carte de coupe", tedesco: "Kelchkarte" },
+        70: { numero: 70, nomeNap: "'O palazzo", italiano: "Il palazzo", inglese: "The palace", francese: "Le palais", tedesco: "Der Palast" },
+        71: { numero: 71, nomeNap: "'O sciaraballo", italiano: "Il carrozzone", inglese: "The wagon", francese: "La charrette", tedesco: "Der Wagen" },
+        72: { numero: 72, nomeNap: "'A maraviglia", italiano: "La meraviglia", inglese: "The wonder", francese: "La merveille", tedesco: "Das Wunder" },
+        73: { numero: 73, nomeNap: "'O spitale", italiano: "L'ospedale", inglese: "The hospital", francese: "L'hôpital", tedesco: "Das Krankenhaus" },
+        74: { numero: 74, nomeNap: "'A rocca", italiano: "La rocca", inglese: "The fortress", francese: "La forteresse", tedesco: "Die Festung" },
+        75: { numero: 75, nomeNap: "'O ppane 'e mmamma", italiano: "Il pane di mamma", inglese: "Mother's bread", francese: "Le pain de maman", tedesco: "Mamas Brot" },
+        76: { numero: 76, nomeNap: "'A paura", italiano: "La paura", inglese: "Fear", francese: "La peur", tedesco: "Die Angst" },
+        77: { numero: 77, nomeNap: "'E diavule", italiano: "I diavoli", inglese: "The devils", francese: "Les diables", tedesco: "Die Teufel" },
+        78: { numero: 78, nomeNap: "'A bella figliola", italiano: "La bella ragazza", inglese: "The pretty girl", francese: "La jolie fille", tedesco: "Das hübsche Mädchen" },
+        79: { numero: 79, nomeNap: "'O mariuolo", italiano: "Il ladro", inglese: "The thief", francese: "Le voleur", tedesco: "Der Dieb" },
+        80: { numero: 80, nomeNap: "'A vocca", italiano: "La bocca", inglese: "The mouth", francese: "La bouche", tedesco: "Der Mund" },
+        81: { numero: 81, nomeNap: "'E sciure", italiano: "I fiori", inglese: "Flowers", francese: "Les fleurs", tedesco: "Die Blumen" },
+        82: { numero: 82, nomeNap: "'A tavula bandita", italiano: "La tavola imbandita", inglese: "The banquet table", francese: "La table garnie", tedesco: "Die gedeckte Tafel" },
+        83: { numero: 83, nomeNap: "'O maletiempo", italiano: "Il maltempo", inglese: "Bad weather", francese: "Le mauvais temps", tedesco: "Das Unwetter" },
+        84: { numero: 84, nomeNap: "'A Cchiesa", italiano: "La chiesa", inglese: "The church", francese: "L'église", tedesco: "Die Kirche" },
+        85: { numero: 85, nomeNap: "'O purpo", italiano: "Il polpo", inglese: "The octopus", francese: "Le poulpe", tedesco: "Der Oktopus" },
+        86: { numero: 86, nomeNap: "'A puteca", italiano: "La bottega", inglese: "The shop", francese: "La boutique", tedesco: "Der Laden" },
+        87: { numero: 87, nomeNap: "'E perucchie", italiano: "I pidocchi", inglese: "Lice", francese: "Les poux", tedesco: "Die Läuse" },
+        88: { numero: 88, nomeNap: "'E casecavalle", italiano: "I caciocavalli", inglese: "Caciocavallo cheese", francese: "Fromage caciocavallo", tedesco: "Caciocavallo Käse" },
+        89: { numero: 89, nomeNap: "'A vecchia", italiano: "La vecchia", inglese: "The old woman", francese: "La vieille femme", tedesco: "Die alte Frau" },
+        90: { numero: 90, nomeNap: "'A paura 'e Dio", italiano: "Il timore di Dio", inglese: "The fear of God", francese: "La crainte de Dieu", tedesco: "Die Furcht Gottes" }
+    };
+
+    let selectedNumbers = [];
+    let clickCount69 = 0;
+
+    // Frasi scaramantiche per la condivisione
+    const fraseScaramantiche = [
+        "Chesti so' 'e numere buone! 🍀 Toccate 'o curniciello e faciteme 'na preghiera! 🤘",
+        "E chest' è 'o destino che me chiamme! 🌟 Chi tene 'e corne nun tene paura! 🐂",
+        "'A fortuna vene a chi s'aspetta! ✨ Stasera se vince, domani champagne! 🍾",
+        "Smorfia napoletana porta fortuna! 🎰 'O Santo protegge chi gioca cunscienza! 🙏",
+        "Chiste so' 'e numere d' 'o core! ❤️ 'A mamma m'ha ditto: 'Gioca e vince!' 💰",
+        "NGC benedice chiste numere! ⚡ Toccateve 'e parte basse e sperамо buono! 🤞"
+    ];
+
+    // Frasi napoletane per il numero jolly
+    const frasiJolly = {
+        1: { ita: "L'Italia porta fortuna a NGC!", eng: "Italy brings luck to NGC!" },
+        2: { ita: "'A piccerella porta 'a felicità!", eng: "The little girl brings happiness!" },
+        3: { ita: "'A gatta porta sette vite fortunate!", eng: "The cat brings seven lucky lives!" },
+        4: { ita: "'O puorco porta abbondanza!", eng: "The pig brings abundance!" },
+        5: { ita: "'A mano santa benedice 'sti numere!", eng: "The holy hand blesses these numbers!" },
+        6: { ita: "Chi guarda 'nterra trova 'a fortuna!", eng: "Who looks down finds fortune!" },
+        7: { ita: "'O vasetto porta 'e denare!", eng: "The pot brings money!" },
+        8: { ita: "'A Maronna ci protegge!", eng: "The Madonna protects us!" },
+        9: { ita: "'A figliata porta benedizione!", eng: "Childbirth brings blessing!" },
+        10: { ita: "'E fasule portano ricchezza!", eng: "Beans bring wealth!" },
+        11: { ita: "'E suricille corrono verso 'a vittoria!", eng: "Little mice run to victory!" },
+        12: { ita: "'O surdato vince sempre!", eng: "The soldier always wins!" },
+        13: { ita: "Sant'Antuono fa 'o miracolo!", eng: "Saint Anthony makes miracles!" },
+        14: { ita: "'O mbriaco vede 'a fortuna!", eng: "The drunk sees fortune!" },
+        15: { ita: "'O guaglione porta gioventù e fortuna!", eng: "The boy brings youth and luck!" },
+        16: { ita: "'O culo porta culo! 🍑", eng: "Butt brings luck! 🍑" },
+        17: { ita: "'A disgrazia se trasforma in fortuna!", eng: "Misfortune turns to fortune!" },
+        18: { ita: "'O sang napoletano nun sbaglia mai!", eng: "Neapolitan blood never fails!" },
+        19: { ita: "'A resata porta allegria e denare!", eng: "Laughter brings joy and money!" },
+        20: { ita: "'A festa comincia con 'sta vittoria!", eng: "The party starts with this victory!" },
+        21: { ita: "'A femmena annura porta desiderio!", eng: "The naked woman brings desire!" },
+        22: { ita: "'O pazzo vede quello che gli altri nun vedono!", eng: "The madman sees what others don't!" },
+        23: { ita: "'O scemo è cchiù furbo 'e tutte!", eng: "The fool is smarter than all!" },
+        24: { ita: "'E guardie nun ce fermeranno!", eng: "The guards won't stop us!" },
+        25: { ita: "Natale porta 'o regalo d' 'a fortuna!", eng: "Christmas brings the gift of fortune!" },
+        26: { ita: "Nanninella porta dolcezza e vittoria!", eng: "Little Anna brings sweetness and victory!" },
+        27: { ita: "'O cantaro se riempie 'e denare!", eng: "The chamber pot fills with money!" },
+        28: { ita: "'E zizze portano latte e miele!", eng: "The breasts bring milk and honey!" },
+        29: { ita: "'O pate benedice 'sta giocata!", eng: "The father blesses this play!" },
+        30: { ita: "'E palle d' 'o tenente portano coraggio!", eng: "The lieutenant's balls bring courage!" },
+        31: { ita: "'O patrone 'e casa è NGC!", eng: "NGC is the landlord!" },
+        32: { ita: "'O capitone scivola verso 'a vittoria!", eng: "The eel slides to victory!" },
+        33: { ita: "'E ccancelle se aprono p' 'a fortuna!", eng: "The chains open for fortune!" },
+        34: { ita: "'A capera taglia 'e problemi!", eng: "The hairdresser cuts problems!" },
+        35: { ita: "'U lupo caccia 'a fortuna!", eng: "The wolf hunts fortune!" },
+        36: { ita: "'E castagnelle suonano 'a vittoria!", eng: "The castanets play victory!" },
+        37: { ita: "'O monaco prega p' 'a vincita!", eng: "The monk prays for the win!" },
+        38: { ita: "'A moneyca porta santità e fortuna!", eng: "The nun brings holiness and luck!" },
+        39: { ita: "'A funesta se trasforma in gioia!", eng: "Tragedy transforms to joy!" },
+        40: { ita: "'A paposcia cammina verso 'o successo!", eng: "The slipper walks to success!" },
+        41: { ita: "'O curtiello taglia 'a sfortuna!", eng: "The knife cuts bad luck!" },
+        42: { ita: "'O ccafè sveglia 'a fortuna!", eng: "Coffee wakes fortune!" },
+        43: { ita: "'A femmena arrevutata ribalta tutto!", eng: "The rebellious woman flips everything!" },
+        44: { ita: "'E cannarute non ce fanno paura!", eng: "Twisted horns don't scare us!" },
+        45: { ita: "'O vino celebra 'a vittoria!", eng: "Wine celebrates victory!" },
+        46: { ita: "'E denare chiamano ate denare!", eng: "Money calls more money!" },
+        47: { ita: "'O muorto parla 'a verità d' 'a fortuna!", eng: "The dead speaks fortune's truth!" },
+        48: { ita: "'O muorto che parla dice: Vinci!", eng: "The talking dead says: Win!" },
+        49: { ita: "'O piezzo 'e carne porta abbondanza!", eng: "The piece of meat brings abundance!" },
+        50: { ita: "'O ppane nun manca mai a NGC!", eng: "NGC never lacks bread!" },
+        51: { ita: "'O ciardino fiorisce con 'sta vittoria!", eng: "The garden blooms with this victory!" },
+        52: { ita: "'A mamma benedice 'sti numere!", eng: "Mother blesses these numbers!" },
+        53: { ita: "'O viecchio porta saggezza e fortuna!", eng: "The old man brings wisdom and luck!" },
+        54: { ita: "'O cappiello copre 'a sfortuna!", eng: "The hat covers bad luck!" },
+        55: { ita: "'A museca suona 'a canzone d' 'a vittoria!", eng: "Music plays the song of victory!" },
+        56: { ita: "'A caruta diventa 'na risalita!", eng: "The fall becomes a rise!" },
+        57: { ita: "'O scartellato porta fortuna speciale!", eng: "The hunchback brings special luck!" },
+        58: { ita: "'A puteolana conosce 'e segreti d' 'a fortuna!", eng: "The woman from Pozzuoli knows fortune's secrets!" },
+        59: { ita: "'E pile portano forza e vittoria!", eng: "The hairs bring strength and victory!" },
+        60: { ita: "'O lamento se trasforma in canto!", eng: "The lament transforms to song!" },
+        61: { ita: "'O cacciatore cattura 'a fortuna!", eng: "The hunter captures fortune!" },
+        62: { ita: "'O muorto acciso risorge vincente!", eng: "The murdered rises victorious!" },
+        63: { ita: "'A sposa porta gioia e abbondanza!", eng: "The bride brings joy and abundance!" },
+        64: { ita: "'A sciammeria copre 'e vincite!", eng: "The coat covers the wins!" },
+        65: { ita: "'O chiavicone nasconde 'o tesoro!", eng: "The manhole hides treasure!" },
+        66: { ita: "'E ddose raddoppiano 'a fortuna!", eng: "The two women double the fortune!" },
+        67: { ita: "'O totaro afferra 'a vittoria!", eng: "The squid grabs victory!" },
+        68: { ita: "'A zuppa cotta è pronta p' 'a festa!", eng: "The cooked soup is ready for party!" },
+        69: { ita: "'A sott' 'e coppe ribalta 'a situazione!", eng: "Upside down flips the situation!" },
+        70: { ita: "'O palazzo apre 'e porte d' 'a ricchezza!", eng: "The palace opens wealth's doors!" },
+        71: { ita: "'O sciaraballo porta NGC alla vittoria!", eng: "The wagon carries NGC to victory!" },
+        72: { ita: "'A maraviglia sta p' accumencia'!", eng: "The wonder is about to begin!" },
+        73: { ita: "'O spitale guarisce 'a sfortuna!", eng: "The hospital heals bad luck!" },
+        74: { ita: "'A rocca difende 'sta vincita!", eng: "The fortress defends this win!" },
+        75: { ita: "'O ppane 'e mmamma nutre 'a fortuna!", eng: "Mother's bread feeds fortune!" },
+        76: { ita: "'A paura se trasforma in coraggio!", eng: "Fear transforms to courage!" },
+        77: { ita: "'E diavule portano fortuna proibita!", eng: "The devils bring forbidden luck!" },
+        78: { ita: "'A bella figliola porta bellezza e vittoria!", eng: "The pretty girl brings beauty and victory!" },
+        79: { ita: "'O mariuolo ruba 'a fortuna p' NGC!", eng: "The thief steals fortune for NGC!" },
+        80: { ita: "'A vocca parla 'a vittoria!", eng: "The mouth speaks victory!" },
+        81: { ita: "'E sciure fioriscono p' 'sta vincita!", eng: "The flowers bloom for this win!" },
+        82: { ita: "'A tavula bandita aspetta NGC!", eng: "The banquet table awaits NGC!" },
+        83: { ita: "'O maletiempo porta 'na tempesta 'e fortune!", eng: "Bad weather brings a storm of fortune!" },
+        84: { ita: "'A Cchiesa benedice 'sta giocata!", eng: "The church blesses this play!" },
+        85: { ita: "'O purpo afferra tutti 'e denare!", eng: "The octopus grabs all the money!" },
+        86: { ita: "'A puteca vende solo fortuna!", eng: "The shop sells only fortune!" },
+        87: { ita: "'E perucchie nun ce fermano!", eng: "The lice won't stop us!" },
+        88: { ita: "'E casecavalle portano sapore 'e vittoria!", eng: "The cheeses bring taste of victory!" },
+        89: { ita: "'A vecchia conosce 'e segreti d' 'a smorfia!", eng: "The old woman knows the smorfia's secrets!" },
+        90: { ita: "'A paura 'e Dio protegge NGC!", eng: "The fear of God protects NGC!" }
+    };
+
+    // Emojis scaramantici
+    const emojiScaramantici = ['🍀', '✨', '💫', '⭐', '🌟', '💰', '🎰', '🔮', '🤞', '🙏'];
+
+    function initGrid() {
+        const grid = document.getElementById('numberGrid');
+        for (let i = 1; i <= 90; i++) {
+            const card = document.createElement('div');
+            card.className = 'number-card';
+            card.innerHTML = `
+                <div class="num">${i}</div>
+                <div class="name">${smorfia[i].nomeNap}</div>
+            `;
+            card.onclick = () => selectNumber(i, card);
+            grid.appendChild(card);
+        }
+    }
+
+    function selectNumber(num, card) {
+        const data = smorfia[num];
+        
+        // Easter Egg per il 69
+        if (num === 69) {
+            clickCount69++;
+            if (clickCount69 >= 10) {
+                showEasterEgg();
+                clickCount69 = 0;
+                return;
+            }
+        }
+
+        // Mostra animazione scaramantica
+        showScaramantico(card);
+
+        // Toggle selezione
+        if (selectedNumbers.includes(num)) {
+            selectedNumbers = selectedNumbers.filter(n => n !== num);
+            card.classList.remove('selected');
+        } else {
+            if (selectedNumbers.length < 6) {
+                selectedNumbers.push(num);
+                card.classList.add('selected');
+            } else {
+                alert('Puoi selezionare massimo 6 numeri!');
+                return;
+            }
+        }
+
+        updateSelectedDisplay();
+        showModal(data);
+    }
+
+    function showScaramantico(element) {
+        const emoji = emojiScaramantici[Math.floor(Math.random() * emojiScaramantici.length)];
+        const scaramantico = document.createElement('div');
+        scaramantico.className = 'scaramantico';
+        scaramantico.textContent = emoji;
+        
+        const rect = element.getBoundingClientRect();
+        scaramantico.style.left = rect.left + rect.width / 2 + 'px';
+        scaramantico.style.top = rect.top + 'px';
+        
+        document.body.appendChild(scaramantico);
+        
+        setTimeout(() => {
+            scaramantico.remove();
+        }, 2000);
+    }
+
+    function showModal(data) {
+        const modal = document.getElementById('modal');
+        const content = document.getElementById('modalContent');
+        
+        content.innerHTML = `
+            <div class="modal-number">${data.numero}</div>
+            <div class="modal-name">${data.nomeNap}</div>
+            
+            <div class="translation-section">
+                <div class="translation-title">🇮🇹 ITALIANO</div>
+                <div class="translation-text">${data.italiano}</div>
+            </div>
+            
+            <div class="translation-section">
+                <div class="translation-title">🇬🇧 ENGLISH</div>
+                <div class="translation-text">${data.inglese}</div>
+            </div>
+            
+            <div class="translation-section">
+                <div class="translation-title">🇫🇷 FRANÇAIS</div>
+                <div class="translation-text">${data.francese}</div>
+            </div>
+            
+            <div class="translation-section">
+                <div class="translation-title">🇩🇪 DEUTSCH</div>
+                <div class="translation-text">${data.tedesco}</div>
+            </div>
+        `;
+        
+        modal.style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+    }
+
+    function updateSelectedDisplay() {
+        const display = document.getElementById('selectedDisplay');
+        const nums = [...selectedNumbers];
+        while (nums.length < 6) nums.push('?');
+        
+        display.innerHTML = nums.map(n => 
+            `<div class="selected-num">${n}</div>`
+        ).join('');
+    }
+
+    function resetSelection() {
+        selectedNumbers = [];
+        document.querySelectorAll('.number-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+        updateSelectedDisplay();
+    }
+
+    function randomSelection() {
+        resetSelection();
+        const available = Array.from({length: 90}, (_, i) => i + 1);
+        
+        for (let i = 0; i < 6; i++) {
+            const randomIndex = Math.floor(Math.random() * available.length);
+            const num = available.splice(randomIndex, 1)[0];
+            selectedNumbers.push(num);
+            
+            const cards = document.querySelectorAll('.number-card');
+            cards[num - 1].classList.add('selected');
+        }
+        
+        updateSelectedDisplay();
+    }
+
+    function shareNumbers() {
+        if (selectedNumbers.length !== 6) {
+            alert('Devi selezionare esattamente 6 numeri prima di condividere!');
+            return;
+        }
+
+        // Apri la schermata screenshot
+        openScreenshotOverlay();
+    }
+
+    function openScreenshotOverlay() {
+        const overlay = document.getElementById('screenshotOverlay');
+        const numbersContainer = document.getElementById('screenshotNumbers');
+        const jollyNumberEl = document.getElementById('jollyNumber');
+        const jollyPhraseItaEl = document.getElementById('jollyPhraseIta');
+        const jollyPhraseEngEl = document.getElementById('jollyPhraseEng');
+        
+        // Mostra i numeri
+        const sortedNums = [...selectedNumbers].sort((a, b) => a - b);
+        numbersContainer.innerHTML = sortedNums.map(n => 
+            `<div class="screenshot-num">${n}</div>`
+        ).join('');
+        
+        // Il numero jolly è l'ultimo (il 6°)
+        const jollyNum = sortedNums[5];
+        jollyNumberEl.textContent = jollyNum;
+        
+        // Frase del jolly
+        const fraseJolly = frasiJolly[jollyNum];
+        jollyPhraseItaEl.textContent = `🇮🇹 ${fraseJolly.ita}`;
+        jollyPhraseEngEl.textContent = `🇬🇧 ${fraseJolly.eng}`;
+        
+        // Avvia animazione emoji
+        startEmojiAnimation();
+        
+        // Mostra overlay
+        overlay.style.display = 'block';
+    }
+
+    function closeScreenshot() {
+        const overlay = document.getElementById('screenshotOverlay');
+        overlay.style.display = 'none';
+        stopEmojiAnimation();
+    }
+
+    let emojiInterval;
+    const allEmojis = ['🍀', '✨', '💫', '⚡', '🌟', '💰', '🎰', '🔮', '🤞', '🙏', '🎯', '🔥', '💎', '👑', '🏆', '🎊', '🎉', '💝', '🌈', '⭐'];
+
+    function startEmojiAnimation() {
+        const container = document.getElementById('animatedEmojis');
+        container.innerHTML = '';
+        
+        // Crea 20 emoji iniziali in posizioni random
+        for (let i = 0; i < 20; i++) {
+            createFloatingEmoji();
+        }
+        
+        // Continua a cambiare emoji ogni 200ms
+        emojiInterval = setInterval(() => {
+            const emojis = document.querySelectorAll('.floating-emoji');
+            emojis.forEach(emoji => {
+                const randomEmoji = allEmojis[Math.floor(Math.random() * allEmojis.length)];
+                emoji.textContent = randomEmoji;
+            });
+        }, 200);
+    }
+
+    function createFloatingEmoji() {
+        const container = document.getElementById('animatedEmojis');
+        const emoji = document.createElement('div');
+        emoji.className = 'floating-emoji';
+        emoji.textContent = allEmojis[Math.floor(Math.random() * allEmojis.length)];
+        emoji.style.left = Math.random() * 100 + '%';
+        emoji.style.top = Math.random() * 100 + '%';
+        emoji.style.animationDelay = Math.random() * 2 + 's';
+        emoji.style.animationDuration = (2 + Math.random() * 2) + 's';
+        container.appendChild(emoji);
+    }
+
+    function stopEmojiAnimation() {
+        if (emojiInterval) {
+            clearInterval(emojiInterval);
+        }
+        const container = document.getElementById('animatedEmojis');
+        container.innerHTML = '';
+    }
+
+    function showEasterEgg() {
+        const egg = document.getElementById('easterEgg');
+        egg.style.display = 'block';
+        
+        setTimeout(() => {
+            egg.style.display = 'none';
+        }, 3000);
+    }
+
+    // Chiudi modal cliccando fuori
+    window.onclick = function(event) {
+        const modal = document.getElementById('modal');
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+
+    // Inizializza
+    initGrid();
+    updateSelectedDisplay();
+</script>
+```
+
+</body>
+</html>
